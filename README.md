@@ -69,6 +69,7 @@ Offline (need prior map).
 - [x] BeautyMap (Ours 🚀): [RAL'24](https://arxiv.org/abs/2405.07283), [**Official Code**](https://github.com/MKJia/BeautyMap)
 - [x] ERASOR: [RAL'21 official link](https://github.com/LimHyungTae/ERASOR), [**benchmark implementation**](https://github.com/Kin-Zhang/ERASOR/tree/feat/no_ros)
 - [x] Removert: [IROS 2020 official link](https://github.com/irapkaist/removert), [**benchmark implementation**](https://github.com/Kin-Zhang/removert)
+- [x] dynamic-object-removal (numpy-only): [GitHub](https://github.com/rsasaki0109/dynamic-3d-object-removal), [**Benchmark adapter**](methods/dor_numpy) — detector-free fusion / range / scan-ratio / temporal, `pip install git+https://github.com/rsasaki0109/dynamic-3d-object-removal.git`
 
 Please note that we provided the comparison methods also but modified a little bit for us to run the experiments quickly, but no modified on their methods' core. Please check the LICENSE of each method in their official link before using it.
 
