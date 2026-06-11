@@ -82,7 +82,7 @@ All Running commands, `-1` means all pcd files in the `pcd` folder, otherwise th
 ./build/octomap_run ${data_path} ${config.toml} -1
 python BeautyMap/main.py --data_dir ${data_path} --run_file_num -1
 ./build/dufomap_run ${data_path} ${config.toml}
-pip install "dynamic-object-removal>=0.3" && python dor_numpy/main.py --data_dir ${data_path} --algorithm range
+pip install git+https://github.com/rsasaki0109/dynamic-3d-object-removal.git && python dor_numpy/main.py --data_dir ${data_path} --algorithm fusion
 ```
 
 <!-- ./build/removert_run ${data_path} ${config.yaml} -1

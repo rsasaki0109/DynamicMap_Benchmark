@@ -38,9 +38,10 @@ def _load_sequence(pcd_dir: Path) -> tuple[np.ndarray, list[tuple[np.ndarray, np
     cursor = 0
     for path in scan_files:
         scan = core.load_pcd_scan(path)
-        if scan.viewpoint is None:
-            raise SystemExit(f"Missing VIEWPOINT in {path}")
-        origin = scan.viewpoint[:3]
+        # PCD defaults VIEWPOINT to identity, so a header at the default value and
+        # a scan genuinely captured at the world origin are indistinguishable —
+        # accept both as a zero origin.
+        origin = scan.viewpoint[:3] if scan.viewpoint is not None else np.zeros(3)
         n = len(scan.points)
         chunks.append(scan.points)
         scans.append((scan.points, origin))
@@ -57,6 +58,8 @@ def _clean(
     *,
     h_res: float,
     v_res: float,
+    min_see_through: int,
+    max_surface_hits: int,
     voxel_size: float,
     temporal_min_hits: int,
     sr_min_votes: int | None,
@@ -73,6 +76,8 @@ def _clean(
             scans,
             h_res_deg=h_res,
             v_res_deg=v_res,
+            min_see_through=min_see_through,
+            max_surface_hits=max_surface_hits,
             ground_z=ground_z,
         )
     elif algorithm == "scan_ratio":
@@ -106,6 +111,10 @@ def main() -> int:
     parser.add_argument("--algorithm", choices=["fusion", "range", "scan_ratio", "temporal"], default="fusion")
     parser.add_argument("--h-res", type=float, default=1.0)
     parser.add_argument("--v-res", type=float, default=1.0)
+    # 3/3 (vs the library's 2/2 default) is the setting behind the README range
+    # numbers, matching the upstream library's run_dynamicmap_benchmark.py.
+    parser.add_argument("--min-see-through", type=int, default=3)
+    parser.add_argument("--max-surface-hits", type=int, default=3)
     parser.add_argument("--voxel-size", type=float, default=core.DEFAULT_TEMPORAL_VOXEL_SIZE)
     parser.add_argument("--temporal-min-hits", type=int, default=2)
     parser.add_argument("--sr-min-votes", type=int, default=None,
@@ -124,6 +133,8 @@ def main() -> int:
         slices,
         h_res=args.h_res,
         v_res=args.v_res,
+        min_see_through=args.min_see_through,
+        max_surface_hits=args.max_surface_hits,
         voxel_size=args.voxel_size,
         temporal_min_hits=args.temporal_min_hits,
         sr_min_votes=args.sr_min_votes,

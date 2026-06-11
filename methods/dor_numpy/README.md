@@ -19,8 +19,22 @@ python main.py --data_dir /path/to/00 --algorithm scan_ratio
 python main.py --data_dir /path/to/00 --algorithm temporal
 ```
 
-Each command writes `dor_<algorithm>_output.pcd` into `data_dir`. Use the benchmark's
-`export_eval_pcd` + `scripts/py/eval/evaluate_all.py` for SA/DA/AA/HA.
+`fusion` is the slowest of the four: ~11 min on seq 00 and ~29 min on seq 05 with
+the default `--fusion-workers 6`; the others run in a few minutes.
+
+## Evaluate
+
+Each command writes `dor_<algorithm>_output.pcd` into `data_dir`. Export and score
+with the benchmark tools:
+
+```bash
+./build/export_eval_pcd /path/to/00 dor_fusion_output.pcd 0.05
+python scripts/py/eval/evaluate_all.py
+```
+
+`evaluate_all.py` reads its `Result_Folder`, `algorithms`, and `all_seqs` settings
+from the constants at the top of the file — add `dor_fusion` (or the algorithm you
+ran) to the `algorithms` list before running it.
 
 ## Semantic-KITTI teaser results (seq 00 / 05)
 
