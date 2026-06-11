@@ -1,11 +1,11 @@
 # dynamic-object-removal (numpy-only)
 
-Detector-free dynamic map cleaning via [dynamic-object-removal](https://github.com/rsasaki0109/dynamic-3d-object-removal) — installable straight from GitHub, numpy only.
+Detector-free dynamic map cleaning via [dynamic-object-removal](https://github.com/rsasaki0109/dynamic-3d-object-removal) — `pip install` from PyPI, numpy only.
 
 ## Install
 
 ```bash
-pip install git+https://github.com/rsasaki0109/dynamic-3d-object-removal.git
+pip install "dynamic-object-removal>=0.5"
 ```
 
 ## Run
